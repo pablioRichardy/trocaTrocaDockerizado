@@ -1,0 +1,5 @@
+./app/node_modules
+./app/*.json
+./app/*.config.ts
+./app/*.cjs
+./app/*.md
