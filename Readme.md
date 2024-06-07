@@ -27,7 +27,7 @@ Antes de começar essa aventura, certifique-se de ter o Docker e o Docker Compos
 3. Abra o seu navegador favorito e acesse a aplicação (não, Internet Explorer não conta):
 
     - O front-end estará disponível em: `http://localhost:3000` 🎨
-    - O back-end estará disponível em: `http://localhost:5000` ⚙️
+    - O back-end estará disponível em: `http://localhost:5173` ⚙️
 
 ## 📂 Estrutura do Repositório
 
