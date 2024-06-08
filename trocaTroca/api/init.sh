@@ -1,33 +1,25 @@
+#!/bin/bash
+
+# Caminho para a pasta da API dentro do contêiner
+API_DIR=/app/api
+
+# URL do repositório da API
+REPO_URL=https://github.com/pablioRichardy/trocaTrocaAPI.git
+
 # Verificar se o arquivo de marcação existe
-if [ ! -f /application/trocaTroca/api/.initialized ]; then
-  # Criando um package.json com o script start
-  cat <<EOF > /application/trocaTroca/api/package.json
-  {
-    "name": "troca-troca-api",
-    "version": "1.0.0",
-    "main": "index.js",
-    "scripts": {
-      "start": "nodemon --legacy-watch ./public --ext ts --exec \"ts-node ./public/index.ts\""
-    }
-  }
-EOF
-  # Comandos a serem executados apenas na primeira inicialização
-  npm install -g npm@latest
-  npm install ts-node
-  npm install --save-dev nodemon 
-  npm install --save-dev typescript 
-  npm install express
-  npm install --save-dev @types/express
-  npm install --save-dev @types/node
-  npm install crypto
-  npm install bip39
-  npm install firebase-admin
+if [ ! -f $API_DIR/.initialized ]; then
+  apk update && apk add git
+  echo "Clonando o repositório da API..."
+  rm -rf $API_DIR/*  # Remove todo o conteúdo da pasta API
+  git clone $REPO_URL $API_DIR
+  touch $API_DIR/.initialized
+  echo "Repositório clonado e arquivo de marcação criado."
+fi
 
-  echo '{"compilerOptions":{"target":"ES6","module":"commonjs","outDir":"./dist","strict":true,"esModuleInterop":true, "skipLibCheck": true}, "include": ["*/*.ts"], "exclude": ["node_modules"]}' > /application/trocaTroca/api/tsconfig.json
-  npm install --prefix /application/trocaTroca/api
-
-  # Criar o arquivo de marcação
-  touch /application/trocaTroca/api/.initialized
+# Verificar se package.json existe e instalar dependências
+if [ -f $API_DIR/package.json ]; then
+  cd $API_DIR
+  npm install
 fi
 
 # Comando principal do contêiner
