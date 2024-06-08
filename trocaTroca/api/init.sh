@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Caminho para a pasta da API dentro do contêiner
-API_DIR=/app/api
+API_DIR=/application/trocaTroca/api
 
 # URL do repositório da API
 REPO_URL=https://github.com/pablioRichardy/trocaTrocaAPI.git
