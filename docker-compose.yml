@@ -7,18 +7,19 @@ services:
     working_dir: /application/trocaTroca/api
     volumes:
       - ./trocaTroca/api:/application/trocaTroca/api
+      - ./trocaTroca/entryScripts:/application/trocaTroca/entryScripts/
     ports:
       - 3000:3000
-    entrypoint: sh init.sh
+    entrypoint: sh /application/trocaTroca/entryScripts/initAPI.sh
     command: npm start
 
   front-end:
     image: node:lts-alpine
-    working_dir: /application/trocaTroca/front-end/app
+    working_dir: /application/trocaTroca/front-end
     volumes:
       - ./trocaTroca/front-end:/application/trocaTroca/front-end
+      - ./trocaTroca/entryScripts:/application/trocaTroca/entryScripts/
     ports:
       - 5173:5173
-    entrypoint: sh ../init.sh
+    entrypoint: sh /application/trocaTroca/entryScripts/initFront.sh
     command: npm run dev -- --host 0.0.0.0
-    restart: always

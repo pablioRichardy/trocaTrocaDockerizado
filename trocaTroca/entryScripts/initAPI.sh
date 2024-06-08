@@ -1,8 +1,5 @@
 #!/bin/bash
 
-# Caminho para o diretório do script
-SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )"
-
 # Caminho para a pasta da API dentro do contêiner
 API_DIR=/application/trocaTroca/api
 
@@ -13,7 +10,6 @@ REPO_URL=https://github.com/pablioRichardy/trocaTrocaAPI.git
 initialize_api() {
   apk update && apk add git
   echo "Clonando o repositório da API..."
-  rm -rf "$API_DIR"/*  # Remove todo o conteúdo da pasta API
   git clone "$REPO_URL" "$API_DIR"
   touch "$API_DIR/.initialized"
   echo "Repositório clonado e arquivo de marcação criado."
@@ -22,16 +18,11 @@ initialize_api() {
   npm install
 }
 
-# Verificar se o arquivo de marcação existe
-if [ ! -f "$API_DIR/.initialized" ]; then
+# Verificar se a pasta da API não está vazia
+if [ -z "$(ls -A "$API_DIR")" ]; then
   initialize_api
-fi
-
-# Verificar se o arquivo do script foi excluído e recriá-lo se necessário
-if [ ! -f "$SCRIPT_DIR/init.sh" ]; then
-  echo "Recriando o script init.sh..."
-  cp "$0" "$SCRIPT_DIR/init.sh"
-  echo "Script init.sh recriado."
+else
+  echo "A pasta da API já contém arquivos. O repositório não será clonado novamente."
 fi
 
 # Comando principal do contêiner
